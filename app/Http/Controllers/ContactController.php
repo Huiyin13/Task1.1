@@ -12,7 +12,7 @@ class ContactController extends Controller
 {
     public function contactList()
     {
-        $print = contact::all();
+        $print = contact::paginate(5);
         return view('contactList', compact("print"));
     }
 
@@ -41,22 +41,22 @@ class ContactController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|max:255',
-            'phoneNo' => 'required|unique:posts|max:255',
-            'email' => 'required|unique:posts|max:255',
+            'phoneNo' => 'required|max:255',
+            'email' => 'required|max:255',
             'gender' => 'required|max:255',
 
         ]);
         contact::where('id', $id)->update($validatedData);
         $message = "Contact is successful updated.";
         echo "<script type='text/javascript'>alert('$message');</script>";
-        $data = contact::where('id', $id)->get();
-        return view('contactList', compact("data"));
+        $print = contact::all();
+        return view('/contactList', compact("print"));
     }
 
     public function destroy($id)
     {
-        contact::find($id)->delete();
-        return redirect()->route('contactList')
-                        ->with('success','Contact deleted successfully!');
+        $data = contact::find($id);
+        $data->delete();
+        return redirect('/contactList')->with('success', 'Contact is Deleted');
     }
 }

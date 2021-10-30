@@ -28,30 +28,34 @@ Route::middleware('auth')->group(function(){
     Route::get('/createNewContact', function () {
         return view('createNewContact');
     });
-
-    Route::post('submit',"App\Http\Controllers\ContactController@addContact");
+    Route::get('/contactList', "ContactController@contactList")->name('contactList');
+    Route::post('submit','ContactController@addContact')->name('addContact');
+    Route::get('/{id}/showDetails', 'ContactController@showDetails')->name('showDetails');
     Route::get('/{id}/destroy', 'ContactController@destroy')->name('destroy');
-    Route::get('/contactDetailsEdit/{id}',"App\Http\Controllers\ContactController@showDetails");
-    Route::post('/{id}/contactDetailsEdit', 'ContactController@updateDetails')->name('updateDetails');
-    Route::get('/contactList', 'ContactController@contactList');
+    Route::post('/{id}/updateDetails', 'ContactController@updateDetails')->name('updateDetails');
+    //Route::get('/contactList/{id}', "App\Http\Controllers\ContactController@destroy");
+    //Route::get('/contactDetailsEdit/{id}',"App\Http\Controllers\ContactController@showDetails");
+    //Route::post('/contactDetailsEdit/{id}',"App\Http\Controllers\ContactController@updateDetails");
+   
 
 }); 
 
-Route::get('/forgot-password', function () {
-    return view('auth.passwords.email');
-})->middleware('guest')->name('password.request');
 
-Route::post('/forgot-password', function (Request $request) {
-    $request->validate(['email' => 'required|email']);
+//Route::get('/forgot-password', function () {
+   // return view('auth.passwords.email');
+//})->middleware('guest')->name('password.request');
 
-    $status = Password::sendResetLink(
-        $request->only('email')
-    );
+//Route::post('/forgot-password', function (Request $request) {
+    //$request->validate(['email' => 'required|email']);
 
-    return $status === Password::RESET_LINK_SENT
-                ? back()->with(['status' => __($status)])
-                : back()->withErrors(['email' => __($status)]);
-})->middleware('guest')->name('password.email');
+    //$status = Password::sendResetLink(
+    //    $request->only('email')
+    //);
+
+    //return $status === Password::RESET_LINK_SENT
+    //            ? back()->with(['status' => __($status)])
+     //           : back()->withErrors(['email' => __($status)]);
+//})->middleware('guest')->name('password.email');
 
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('users', UserController::class);
