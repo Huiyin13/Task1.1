@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Password;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -29,36 +29,16 @@ Route::middleware('auth')->group(function(){
         return view('createNewContact');
     });
     Route::get('/contactList', "ContactController@contactList")->name('contactList');
-    Route::post('submit','ContactController@addContact')->name('addContact');
+    Route::post('/contactList','ContactController@addContact')->name('addContact');
     Route::get('/{id}/showDetails', 'ContactController@showDetails')->name('showDetails');
     Route::get('/{id}/destroy', 'ContactController@destroy')->name('destroy');
-    Route::post('/{id}/updateDetails', 'ContactController@updateDetails')->name('updateDetails');
-    //Route::get('/contactList/{id}', "App\Http\Controllers\ContactController@destroy");
-    //Route::get('/contactDetailsEdit/{id}',"App\Http\Controllers\ContactController@showDetails");
-    //Route::post('/contactDetailsEdit/{id}',"App\Http\Controllers\ContactController@updateDetails");
-   
+    Route::post('/{id}/updateDetails', 'ContactController@updateDetails')->name('updateDetails'); 
 
 }); 
-
-
-//Route::get('/forgot-password', function () {
-   // return view('auth.passwords.email');
-//})->middleware('guest')->name('password.request');
-
-//Route::post('/forgot-password', function (Request $request) {
-    //$request->validate(['email' => 'required|email']);
-
-    //$status = Password::sendResetLink(
-    //    $request->only('email')
-    //);
-
-    //return $status === Password::RESET_LINK_SENT
-    //            ? back()->with(['status' => __($status)])
-     //           : back()->withErrors(['email' => __($status)]);
-//})->middleware('guest')->name('password.email');
 
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('users', UserController::class);
     Route::resource('contacts', ContactController::class);
 });
+
 

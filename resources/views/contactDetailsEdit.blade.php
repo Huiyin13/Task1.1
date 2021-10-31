@@ -28,7 +28,7 @@
 			</tr>
             <tr>
 				<td>Email: </td>
-				<td><input type="text" name="email" id="email" value="{{$all->email}}" required></td>
+				<td><input type="email" name="email" id="email" value="{{$all->email}}" required></td>
 			</tr>
 		</table>
         

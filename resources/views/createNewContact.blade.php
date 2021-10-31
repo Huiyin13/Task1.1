@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form action = "submit" method = "post">
+<form action = "{{route('contactList')}}" method = "post">
     @csrf
     <table border = 0 align = "center">
         <tr>
@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td>E-mail:</td>
-            <td><input type = "text" name = "email" id="email" placeholder = "e.g. xxx@gmail.com" required></input></td>
+            <td><input type = "email" name = "email" id="email" placeholder = "e.g. xxx@gmail.com" required></input></td>
         </tr>
     </table>
     <br><br><br>
